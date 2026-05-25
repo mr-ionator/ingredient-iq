@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">IngredientIQ</string>
+    <string name="app_tagline">Know what\'s in your food</string>
+    <string name="scan_label">Scan Label</string>
+    <string name="analyze">Analyze</string>
+    <string name="point_at_ingredients">Point at the ingredients list</string>
+    <string name="overall_score">Overall Score</string>
+    <string name="harmful">Harmful / Concerning</string>
+    <string name="safe_neutral">Safe / Neutral</string>
+    <string name="beneficial">Beneficial</string>
+    <string name="unrecognized">Unrecognized</string>
+</resources>
