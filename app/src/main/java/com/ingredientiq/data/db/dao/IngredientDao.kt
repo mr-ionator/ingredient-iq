@@ -18,8 +18,15 @@ interface IngredientDao {
     @Query("SELECT COUNT(*) FROM ingredients")
     fun count(): Flow<Int>
 
-    @Query("SELECT * FROM ingredients WHERE canonicalName LIKE '%' || :query || '%'")
-    suspend fun search(query: String): List<IngredientEntity>
+    @Query("""
+        SELECT DISTINCT i.* FROM ingredients i
+        LEFT JOIN aliases a ON a.ingredientId = i.id
+        WHERE i.canonicalName LIKE '%' || :query || '%'
+           OR a.alias LIKE '%' || :query || '%'
+        ORDER BY i.canonicalName ASC
+        LIMIT 50
+    """)
+    suspend fun searchWithAliases(query: String): List<IngredientEntity>
 
     @Query("SELECT * FROM ingredients WHERE canonicalName = :name LIMIT 1")
     suspend fun findByCanonicalName(name: String): IngredientEntity?

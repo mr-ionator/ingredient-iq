@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,7 +29,9 @@ import java.util.Locale
 @Composable
 fun HomeScreen(
     onScanClick: () -> Unit,
-    onAboutClick: () -> Unit,
+    onAboutClick: () -> Unit = {},
+    onHistoryClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val recentScans by viewModel.recentScans.collectAsState()
@@ -37,6 +41,12 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text("IngredientIQ", fontWeight = FontWeight.Bold) },
                 actions = {
+                    IconButton(onClick = onSearchClick) {
+                        Icon(Icons.Default.Search, contentDescription = "Search")
+                    }
+                    IconButton(onClick = onHistoryClick) {
+                        Icon(Icons.Default.History, contentDescription = "History")
+                    }
                     IconButton(onClick = onAboutClick) {
                         Icon(Icons.Default.Info, contentDescription = "About")
                     }

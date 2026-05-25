@@ -39,6 +39,9 @@ class IngredientRepository @Inject constructor(
 
     fun ingredientCount(): Flow<Int> = ingredientDao.count()
 
+    suspend fun searchIngredients(query: String): List<Ingredient> =
+        ingredientDao.searchWithAliases(query).map { it.toDomain() }
+
     suspend fun saveScan(entity: ScanHistoryEntity) =
         scanHistoryDao.insert(entity)
 
