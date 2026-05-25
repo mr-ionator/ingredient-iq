@@ -20,4 +20,7 @@ interface IngredientDao {
 
     @Query("SELECT * FROM ingredients WHERE canonicalName LIKE '%' || :query || '%'")
     suspend fun search(query: String): List<IngredientEntity>
+
+    @Query("SELECT * FROM ingredients WHERE canonicalName = :name LIMIT 1")
+    suspend fun findByCanonicalName(name: String): IngredientEntity?
 }
