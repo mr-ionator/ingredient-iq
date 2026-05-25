@@ -4,26 +4,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
+import com.ingredientiq.data.seeder.DatabaseSeeder
+import com.ingredientiq.ui.nav.IngredientIQNavGraph
 import com.ingredientiq.ui.theme.IngredientIQTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject lateinit var seeder: DatabaseSeeder
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Seed DB on first launch (fast no-op if already seeded)
+        CoroutineScope(Dispatchers.IO).launch { seeder.seedIfNeeded() }
+
         enableEdgeToEdge()
         setContent {
             IngredientIQTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    // NavHost will be added in Step 8
-                }
+                IngredientIQNavGraph()
             }
         }
     }
